@@ -2,10 +2,10 @@ import requests
 import json
 import urllib3
 import os
+import traceback
 
 #remove insecure https warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
 #input validation
 def question(stuff):
@@ -19,22 +19,21 @@ def question(stuff):
 def askConfig():
 
     print("\n[ Provide API/CMA/Domain Configuration ]\n")
-
+    
     global username, password, api_ip, api_port, domain, hostname, url
-    domain = 'System Data'
-
+    
     username = question("Username")
     password = question("Password")
     api_ip = question("API (MDM) IP Address")
+    domain = 'System Data'
     api_port = question("API Port")
     hostname = question("Host name to search by")
 
-    formatanswer = f"""username = {username}
+    formatanswer = f'''username = {username}
 password = {password}
 API IP = {api_ip}
 API Port = {api_port}
-hostname = {hostname}
-"""  
+hostname = {hostname}'''  
 
     url = f'https://{api_ip}:{api_port}/web_api'
 
@@ -46,7 +45,7 @@ hostname = {hostname}
         
 
 def cleanup():
-    os.system(f"rm -v where-used_output-{hostname}.json")
+    os.system(f"rm -v where-used_output*.json")
 
 
 # API Login
@@ -71,8 +70,6 @@ def login():
     else: 
         print(f'{response}... Login Failed.\n')
 
-
-    
     
 def whereused(): 
 
@@ -127,11 +124,13 @@ def main():
     whereused()
     
     
-if __name__== "__main__":
+if __name__ == "__main__":
+    
     try:
         main()
     except Exception as e:
-        print(f"[ Error ]\n{e}\n")
+        print(f"[Error]\n{e}\n")
+        print(traceback.format_exc())
     finally:
         logout()
         quit()
