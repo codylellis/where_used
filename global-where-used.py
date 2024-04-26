@@ -20,7 +20,7 @@ def askConfig():
 
     print("\n[ Provide API/CMA/Domain Configuration ]\n")
 
-    global username, password, api_ip, api_port, domain, hostname
+    global username, password, api_ip, api_port, domain, hostname, url
     domain = 'System Data'
 
     username = question("Username")
@@ -35,6 +35,8 @@ API IP = {api_ip}
 API Port = {api_port}
 hostname = {hostname}
 """  
+
+    url = f'https://{api_ip}:{api_port}/web_api'
 
     result = question(f"\n{formatanswer}\nIs this information correct? (y/n)")   
     if result == "n":
@@ -119,15 +121,13 @@ def main():
     cleanup()
     
     askConfig()
-    global url
-    url = f'https://{api_ip}:{api_port}/web_api'
     
     login()
     
     whereused()
     
     
-if __name__=="__main__":
+if __name__== "__main__":
     try:
         main()
     except Exception as e:
