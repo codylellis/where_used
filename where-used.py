@@ -5,7 +5,6 @@ import urllib3
 #remove insecure https warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
 #input validation
 def question(stuff):
     while True:
